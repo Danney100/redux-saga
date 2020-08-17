@@ -1,24 +1,29 @@
-import React from 'react';
-import ReactDom from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
-import rootReducer from './reducers/index';
-import thunkMiddleware from 'redux-thunk';
-import { Provider } from 'react-redux'
-import { createLogger } from 'redux-logger';
+import React from "react";
+import ReactDom from "react-dom";
+import createSagaMiddleware from "redux-saga";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import { createLogger } from "redux-logger";
+import reducer from "./reducers";
+import App from "./components/App";
+import rootSaga from "./sagas";
 
-const loggerMiddleware = createLogger();
+const sagaMiddleware = createSagaMiddleware;
 
 const store = createStore(
-    rootReducer,
-    applyMiddleware(
-        thunkMiddleware,
-        loggerMiddleware
-    )
+  reducer,
+  applyMiddleware(sagaMiddleware, createLogger)
 );
 
+sagaMiddleware.run(rootSaga);
+
 ReactDom.render(
-    <Provider store={store}>
-        <App />                 
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
 );
+
+if (module.hot) {
+  module.hot.accept(App);
+}

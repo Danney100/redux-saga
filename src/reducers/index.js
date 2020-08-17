@@ -1,6 +1,10 @@
-import { combineReducers } from 'redux';
-import fetchCatReducer from './fetchCatReducer';
+const reducer = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_NEWS":
+      return { ...state, loading: true };
+    default:
+      return state;
+  }
+};
 
-export default combineReducers({
-    cats: fetchCatReducer
-})
+export default reducer;
