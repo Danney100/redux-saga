@@ -1,4 +1,4 @@
-import { put, takeLatest, all } from "react-saga/effects";
+import { put, takeLatest, all } from "redux-saga/effects";
 
 function* fetchNews() {
   const json = yield fetch(

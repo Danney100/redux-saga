@@ -1,23 +1,20 @@
 import React from "react";
-import ReactDom from "react-dom";
 import createSagaMiddleware from "redux-saga";
+import { render } from "react-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import { createLogger } from "redux-logger";
+import { logger } from "redux-logger";
 import reducer from "./reducers";
 import App from "./components/App";
 import rootSaga from "./sagas";
 
-const sagaMiddleware = createSagaMiddleware;
+const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(
-  reducer,
-  applyMiddleware(sagaMiddleware, createLogger)
-);
+const store = createStore(reducer, applyMiddleware(sagaMiddleware, logger));
 
 sagaMiddleware.run(rootSaga);
 
-ReactDom.render(
+render(
   <Provider store={store}>
     <App />
   </Provider>,
